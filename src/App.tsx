@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import logoS3 from './logoS3.png';
 import logoCF from './logoCloudFront.png';
 import './App.css';
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 // To be replaced by the endpoint of the API deployed through the CloudFormation Template
@@ -32,10 +33,10 @@ const DataToSend = {
 }
 
 
-function App() {
+function App(): React.JSX.Element {
   const [data, setData] = useState('')
   useEffect(() => {
-    async function fetchData(params) {    
+    async function fetchData() {    
       try  {
       const fetchResponse = await fetch (APIEndPoint,
         {

@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+      "outDir": "./built",
+      "allowJs": true,
+      "target": "es5",
+      "jsx": "react",
+      "noEmit": true,
+      "allowImportingTsExtensions": true
+    },
+    "include": ["./src/**/*", "./public/**/*"],
+}
