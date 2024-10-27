@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './index.css';
+import './tw_output.css';
 import App from './App.tsx';
 import { createRoot } from 'react-dom/client';
 
