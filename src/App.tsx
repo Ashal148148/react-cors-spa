@@ -5,6 +5,11 @@ import EquipmentCarousel from './components/equipment/EquipmentCarousel';
 import EquipmentRegistration from './components/equipment/EquipmentRegistration';
 import { EquipmentI } from './interfaces/equipment';
 import Button from './components/general/Button';
+import { Player } from './logic/player';
+import { archer_thief, jobs } from './logic/job';
+import PlayerDisplay from './components/calculator/PlayerDisplay';
+import PlayerLevelControls from './components/calculator/PlayerLevelControls';
+import PlayerStrategyControls from './components/calculator/PlayerStrategyControls';
 
 const APIEndPoint = 'https://keltabpj69.execute-api.eu-north-1.amazonaws.com/default/washPlanner'
 const DataToSend = {
@@ -49,6 +54,8 @@ const EquipmentConst: EquipmentI[] = [
       {"category": "Glove", "name": "red markers", "level": 20, "INT":11}
   ]
 
+const playerConst = new Player(jobs['Archer/Thief'], 'AshalNL', 10)
+
 function registerEquip(equipment: EquipmentI[], setEquipment: (equip: any) => void){
   return (equip: EquipmentI) => {
     const newEquipment = [...equipment, equip]
@@ -69,6 +76,46 @@ function App(): React.JSX.Element {
   // const [data, setData] = useState('')
   const [equipment, setEquipment] = useState([])
   const [equipmentOpen, setEquipmentOpen] = useState(false)
+  const [playerINT, setPlayerINT] = useState(10)
+  const [playerINTGoal, setPlayerINTGoal] = useState(350)
+  const [playerLevel, setPlayerLevel] = useState(1)
+  const [playerEquipment, setPlayerEquipment] = useState([])
+  const [playerMapleWarriorPercent, setPlayerMapleWarriorPercent] = useState(10)
+  const [playerBonusMana, setPlayerBonusMana] = useState(0)
+  const [playerBonusHP, setPlayerBonusHP] = useState(0)
+  const [playerFreshAP, setPlayerFreshAP] = useState(0)
+  const [playerWashes, setPlayerWashes] = useState(0)
+  const [playerName, setPlayerName] = useState('AshalNL')
+  const [playerMPWashes, setPlayerMPWashes] = useState(0)
+  const [playerIsAddingINT, setPlayerIsAddingINT] = useState(true)
+  const [playerIsAddingFreshAPIntoHP, setPlayerIsAddingFreshAPIntoHP] = useState(false)
+  const [playerIsMPWashBeforeINT, setPlayerIsMPWashBeforeINT] = useState(false)
+  const [playerStaleAP, setPlayerStaleAP] = useState(0)
+  const [playerJob, setPlayerJob] = useState(archer_thief)
+  const [playerMainStat, setPlayerMainStat] = useState(5)
+  const [playerFreshAPIntoHPTotal, setPlayerFreshAPIntoHPTotal] = useState(0)
+
+  const activePlayer = new Player(playerJob, playerName, playerMapleWarriorPercent, playerINTGoal, playerLevel, playerEquipment, playerBonusHP, playerBonusMana, playerINT, playerFreshAP, playerWashes, playerIsAddingINT, playerStaleAP, playerMainStat, playerIsAddingFreshAPIntoHP, playerMPWashes, playerFreshAPIntoHPTotal, 0, playerIsMPWashBeforeINT)
+  const updatePlayerState = (changedPlayer: Player) => {
+    setPlayerINT(changedPlayer.INT)
+    // setPlayerINTGoal(changedPlayer)
+    setPlayerLevel(changedPlayer.level)
+    setPlayerEquipment([...changedPlayer.equipment])
+    // setPlayerMapleWarriorPercent(10)
+    setPlayerBonusMana(changedPlayer.bonus_mana)
+    setPlayerBonusHP(changedPlayer.bonus_HP)
+    setPlayerFreshAP(changedPlayer.fresh_AP)
+    setPlayerWashes(changedPlayer.washes)
+    // setPlayerName('AshalNL')
+    setPlayerMPWashes(changedPlayer.mp_washes)
+    setPlayerIsAddingINT(changedPlayer.is_adding_int)
+    setPlayerIsAddingFreshAPIntoHP(changedPlayer.is_adding_fresh_ap_into_hp)
+    setPlayerIsMPWashBeforeINT(changedPlayer.is_mp_wash_before_int)
+    setPlayerStaleAP(changedPlayer.stale_ap)
+    // setPlayerJob(archer_thief)
+    setPlayerMainStat(changedPlayer.main_stat)
+    setPlayerFreshAPIntoHPTotal(changedPlayer.fresh_ap_into_hp_total)
+  }
 
   useEffect(() => {
     const storageEquipment = JSON.parse(localStorage.getItem('int_gears')) 
@@ -77,6 +124,11 @@ function App(): React.JSX.Element {
       setEquipment(EquipmentConst)
     }
   }, [])
+
+  const levelUp = (levels: number) => {
+    activePlayer.progress(levels, equipment)
+    updatePlayerState(activePlayer)
+  }
   
 
   // useEffect(() => {
@@ -104,14 +156,23 @@ function App(): React.JSX.Element {
   // }, [])
   return (
     <div className="App">
+      <Button onClick={() =>console.log(activePlayer)}>log current player to console</Button>
       <p className='text-center w-full h-full font-bold text-2xl'>Welcome to BattleCat's HP washing calculator</p>
-      <p className='text-center w-full h-full text-lg'>This calculator is an estimation, so take it with a grain of slat</p>
+      <p className='text-center w-full h-full text-lg'>This calculator is an estimation, so take it with a grain of salt</p>
       <Button onClick={() => setEquipmentOpen(!equipmentOpen)}> expand me for gears </Button>
       <div className={`${equipmentOpen ? 'block' : 'hidden'}`}>
         <EquipmentRegistration registerEquip={registerEquip(equipment, setEquipment)}></EquipmentRegistration>
         <EquipmentCarousel equipment={equipment} removeEquip={removeEquip(equipment, setEquipment)}/>
       </div>
-      {/*data && <p className='bg-blue-300 text-blue-900'>{data}</p>*/}         
+      {/*data && <p className='bg-blue-300 text-blue-900'>{data}</p>*/}   
+      <PlayerDisplay player={activePlayer}/>
+      <PlayerLevelControls player={activePlayer} levelUp={levelUp}/>
+      <PlayerStrategyControls player={activePlayer} 
+        setPlayerIsAddingINT={setPlayerIsAddingINT} 
+        setPlayerIsAddingFreshAPIntoHP={setPlayerIsAddingFreshAPIntoHP} 
+        setPlayerIsMPWashBeforeINT={setPlayerIsMPWashBeforeINT}
+        setPlayerINTGoal={setPlayerINTGoal}
+      />
     </div>
   );
 }

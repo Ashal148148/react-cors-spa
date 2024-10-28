@@ -1,7 +1,7 @@
 import { EquipmentI } from "./equipment"
 import { JobI } from "./job"
 
-export interface SendableCharacterFormatI {
+export interface SendablePlayerFormatI {
     name: string,
     level_goal: number,
     job: string,
@@ -10,7 +10,7 @@ export interface SendableCharacterFormatI {
     equipment: EquipmentI[]
 }
 
-export interface CharacterI {
+export interface PlayerI {
     INT: number
     int_goal: number
     level: number
@@ -29,5 +29,9 @@ export interface CharacterI {
     job: JobI
     main_stat: number
     fresh_ap_into_hp_total: number
-    id: number
+    id?: number
+    gears_int: number
+    total_int: number
+    health: number
+    mana: number
 }

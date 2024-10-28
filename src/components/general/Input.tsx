@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-function Button(props: React.InputHTMLAttributes<HTMLInputElement> ){
+function Input(props: React.InputHTMLAttributes<HTMLInputElement> ){
 
     return (
     <input {...props}
@@ -10,4 +10,4 @@ function Button(props: React.InputHTMLAttributes<HTMLInputElement> ){
     )
 }
 
-export default Button;
+export default Input;
