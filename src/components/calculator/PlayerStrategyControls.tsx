@@ -9,12 +9,13 @@ function PlayerStrategyControls({player, setPlayerIsAddingINT, setPlayerIsAdding
     return (
       <div className='shadow bg-purple-200'>
           <p className='text-3xl'> strategy </p>
-          <span className="block text-sm font-medium text-slate-700">Base INT Goal</span>
-          <Input type='number' title='baseINTGoal' onBlur={(event) => setPlayerINTGoal(+event.target.value)} placeholder='Base INT Goal'/>
-          <Checkbox value={player.is_adding_int} onChange={() => setPlayerIsAddingINT(!player.is_adding_int)} label='Add INT'/>
-          <Checkbox value={player.is_adding_fresh_ap_into_hp} onChange={() => setPlayerIsAddingFreshAPIntoHP(!player.is_adding_fresh_ap_into_hp)} label='Add fresh AP into HP'/>
-          <Checkbox value={player.is_mp_wash_before_int} onChange={() => setPlayerIsMPWashBeforeINT(!player.is_mp_wash_before_int)} label='MP Wash before adding INT'/>
-          
+          <div className='flex flex-row'>
+            <span className="block text-sm font-medium text-slate-700">Base INT Goal</span>
+            <Input type='number' title='baseINTGoal' onBlur={(event) => setPlayerINTGoal(+event.target.value)} placeholder='Base INT Goal'/>
+            <Checkbox value={player.is_adding_int} onChange={() => setPlayerIsAddingINT(!player.is_adding_int)} label='Add INT'/>
+            <Checkbox value={player.is_adding_fresh_ap_into_hp} onChange={() => setPlayerIsAddingFreshAPIntoHP(!player.is_adding_fresh_ap_into_hp)} label='Add fresh AP into HP'/>
+            <Checkbox value={player.is_mp_wash_before_int} onChange={() => setPlayerIsMPWashBeforeINT(!player.is_mp_wash_before_int)} label='MP Wash before adding INT'/>
+          </div>
       </div>
     );
 }

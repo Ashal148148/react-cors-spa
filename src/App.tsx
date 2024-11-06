@@ -10,6 +10,9 @@ import { archer_thief, jobs } from './logic/job';
 import PlayerDisplay from './components/calculator/PlayerDisplay';
 import PlayerLevelControls from './components/calculator/PlayerLevelControls';
 import PlayerStrategyControls from './components/calculator/PlayerStrategyControls';
+import PlayerWashControls from './components/calculator/PlayerWashControls';
+import PlayerRegistration from './components/registration/PlayerRegistration';
+import Navbar from './components/general/Navbar';
 
 const APIEndPoint = 'https://keltabpj69.execute-api.eu-north-1.amazonaws.com/default/washPlanner'
 const DataToSend = {
@@ -119,14 +122,40 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     const storageEquipment = JSON.parse(localStorage.getItem('int_gears')) 
-    setEquipment(storageEquipment)
-    if (storageEquipment.length === 0) {
+    if (storageEquipment == null){
       setEquipment(EquipmentConst)
+    } else {
+      setEquipment(storageEquipment)
     }
   }, [])
 
   const levelUp = (levels: number) => {
     activePlayer.progress(levels, equipment)
+    updatePlayerState(activePlayer)
+  }
+
+  const mpWash = (max_amount: number) => {
+    activePlayer.mp_wash(max_amount)
+    updatePlayerState(activePlayer)
+  }
+
+  const hpWash = (max_amount: number) => {
+    activePlayer.hp_wash(max_amount)
+    updatePlayerState(activePlayer)
+  }
+
+  const resetAllMPIntoHP = () => {
+    activePlayer.hp_wash()
+    updatePlayerState(activePlayer)
+  }
+
+  const resetInt = () => {
+    activePlayer.fix_char()
+    updatePlayerState(activePlayer)
+  }
+
+  const resetPlayer = () => {
+    activePlayer.reset_player()
     updatePlayerState(activePlayer)
   }
   
@@ -156,23 +185,30 @@ function App(): React.JSX.Element {
   // }, [])
   return (
     <div className="App">
-      <Button onClick={() =>console.log(activePlayer)}>log current player to console</Button>
-      <p className='text-center w-full h-full font-bold text-2xl'>Welcome to BattleCat's HP washing calculator</p>
-      <p className='text-center w-full h-full text-lg'>This calculator is an estimation, so take it with a grain of salt</p>
-      <Button onClick={() => setEquipmentOpen(!equipmentOpen)}> expand me for gears </Button>
-      <div className={`${equipmentOpen ? 'block' : 'hidden'}`}>
-        <EquipmentRegistration registerEquip={registerEquip(equipment, setEquipment)}></EquipmentRegistration>
-        <EquipmentCarousel equipment={equipment} removeEquip={removeEquip(equipment, setEquipment)}/>
+      {/*<Button onClick={() =>console.log(activePlayer)}>log current player to console</Button>*/}
+      <Navbar/>
+      <div id='title' className={"text-white bg-[url('/src/resources/mlbanner.png')] pt-24 pb-14 bg-bottom bg-cover"}>     
+        <p className='text-center w-full h-full font-bold text-5xl brightness-200'>Welcome to BattleCat's HP washing calculator</p>
+        <p className='text-center w-full h-full text-2xl'>This calculator is an estimation, so take it with a grain of salt</p>
       </div>
-      {/*data && <p className='bg-blue-300 text-blue-900'>{data}</p>*/}   
-      <PlayerDisplay player={activePlayer}/>
-      <PlayerLevelControls player={activePlayer} levelUp={levelUp}/>
-      <PlayerStrategyControls player={activePlayer} 
-        setPlayerIsAddingINT={setPlayerIsAddingINT} 
-        setPlayerIsAddingFreshAPIntoHP={setPlayerIsAddingFreshAPIntoHP} 
-        setPlayerIsMPWashBeforeINT={setPlayerIsMPWashBeforeINT}
-        setPlayerINTGoal={setPlayerINTGoal}
-      />
+      <div id='page-content' className='rounded-3xl p-10 bg-[#11304E] -mt-5'>
+        <PlayerRegistration setPlayerName={setPlayerName} setPlayerJob={setPlayerJob} setPlayerMapleWarriorPercent={setPlayerMapleWarriorPercent}/>
+        {/*data && <p className='bg-blue-300 text-blue-900'>{data}</p>*/}   
+        <PlayerDisplay player={activePlayer}/>
+        <Button onClick={() => setEquipmentOpen(!equipmentOpen)}> expand me for gears </Button>
+        <div className={`${equipmentOpen ? 'block' : 'hidden'}`}>
+          <EquipmentRegistration registerEquip={registerEquip(equipment, setEquipment)}></EquipmentRegistration>
+          <EquipmentCarousel equipment={equipment} removeEquip={removeEquip(equipment, setEquipment)}/>
+        </div>
+        <PlayerLevelControls levelUp={levelUp} resetPlayer={resetPlayer}/>
+        <PlayerStrategyControls player={activePlayer} 
+          setPlayerIsAddingINT={setPlayerIsAddingINT} 
+          setPlayerIsAddingFreshAPIntoHP={setPlayerIsAddingFreshAPIntoHP} 
+          setPlayerIsMPWashBeforeINT={setPlayerIsMPWashBeforeINT}
+          setPlayerINTGoal={setPlayerINTGoal}
+        />
+        <PlayerWashControls mpWash={mpWash} hpWash={hpWash} resetAllMPIntoHP={resetAllMPIntoHP} resetInt={resetInt}/>
+      </div>
     </div>
   );
 }

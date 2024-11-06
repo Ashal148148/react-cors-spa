@@ -144,7 +144,7 @@ export class Player implements PlayerI {
         })
     }
         
-    mp_wash(max_amount=9999){
+    mp_wash(max_amount=9999){ // TODO-- do not allow mp wash under 20 base int
         var before = this.bonus_mana
         var washes = 0
         if (max_amount > this.fresh_AP){
@@ -210,6 +210,7 @@ export class Player implements PlayerI {
     fix_char(){
         this.is_adding_int = false
         this.washes += this.INT - 4
+        this.main_stat += this.INT - 4
         this.INT = 4
     }
 
