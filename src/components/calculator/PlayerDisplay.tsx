@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { PlayerI } from '../../interfaces/player';
+import NoaCard from '../general/NoaCard';
 
 function PlayerDisplay({player}: {player: PlayerI}): React.JSX.Element {
     return (
-      <div className='bg-gradient-to-r from-[#DDF9FF] to-[#ADBEE9] rounded-3xl p-10 mb-6'>        
+      <NoaCard id="playerDisplay">
         <p className='text-3xl pl-5 pb-5'> {player.name} </p>
           <div id='player-stats' className='bg-white rounded-3xl p-5 flex flex-row text-xl'>
            <div className='grow border-solid border-black border-0 border-l-[3px] pl-2 '>
@@ -29,7 +30,7 @@ function PlayerDisplay({player}: {player: PlayerI}): React.JSX.Element {
               <p> Estimated voting time: { Math.round(player.washes * 3100 / (6500 * 365) * 100) / 100 } years</p>
             </div>
         </div>
-      </div>
+      </NoaCard>
     );
 }
 

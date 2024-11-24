@@ -212,6 +212,17 @@ export class Player implements PlayerI {
         this.washes += this.INT - 4
         this.main_stat += this.INT - 4
         this.INT = 4
+        while (this.stale_ap){
+            if (this.bonus_mana > 0) {
+                if (this.bonus_mana > this.job.mp_cost){
+                    this.washes += 1
+                    this.stale_ap -= 1
+                    this.bonus_mana -= this.job.mp_cost
+                } else {
+                    break
+                }
+            }
+        }
     }
 
     copy(): Player{

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Input from '../general/Input';
 import Button from '../general/Button';
+import NoaCard from '../general/NoaCard';
 
 function PlayerWashControls({mpWash, hpWash, resetAllMPIntoHP, resetInt}: { mpWash: (levels: number) => void, 
     hpWash: (levels: number) => void, resetAllMPIntoHP: () => void, resetInt: () => void,
@@ -9,7 +10,7 @@ function PlayerWashControls({mpWash, hpWash, resetAllMPIntoHP, resetInt}: { mpWa
     const [hpWashes, setHpWashes] = React.useState(1)
 
     return (
-      <div className='shadow bg-yellow-200'>
+      <NoaCard id="playerWashControls">
           <p className='text-3xl'> Washing </p>
           <div id='manaWashes' className='flex flex-row'>
             <Button className='my-2' onClick={() => mpWash(1)}>1 mana wash</Button>
@@ -29,7 +30,7 @@ function PlayerWashControls({mpWash, hpWash, resetAllMPIntoHP, resetInt}: { mpWa
             <Button className='my-2' onClick={() => resetAllMPIntoHP()}> Reset all bonus mp into hp </Button>
             <Button className='my-2' onClick={() => resetInt()}> Reset INT </Button>
           </div>
-      </div>
+      </NoaCard>
     );
 }
 

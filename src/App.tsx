@@ -78,7 +78,6 @@ function removeEquip(equipment: EquipmentI[], setEquipment: (equip: any) => void
 function App(): React.JSX.Element {
   // const [data, setData] = useState('')
   const [equipment, setEquipment] = useState([])
-  const [equipmentOpen, setEquipmentOpen] = useState(false)
   const [playerINT, setPlayerINT] = useState(10)
   const [playerINTGoal, setPlayerINTGoal] = useState(350)
   const [playerLevel, setPlayerLevel] = useState(1)
@@ -191,15 +190,11 @@ function App(): React.JSX.Element {
         <p className='text-center w-full h-full font-bold text-5xl brightness-200'>Welcome to BattleCat's HP washing calculator</p>
         <p className='text-center w-full h-full text-2xl'>This calculator is an estimation, so take it with a grain of salt</p>
       </div>
-      <div id='page-content' className='rounded-3xl p-10 bg-[#11304E] -mt-5'>
-        <PlayerRegistration setPlayerName={setPlayerName} setPlayerJob={setPlayerJob} setPlayerMapleWarriorPercent={setPlayerMapleWarriorPercent}/>
+      <div id='page-content' className='rounded-t-3xl p-10 bg-[#11304E] -mt-5'>
+        <PlayerRegistration setPlayerName={setPlayerName} setPlayerJob={setPlayerJob} setPlayerMapleWarriorPercent={setPlayerMapleWarriorPercent}
+         equipment={equipment} registerEquip={registerEquip(equipment, setEquipment)} removeEquip={removeEquip(equipment, setEquipment)}/>
         {/*data && <p className='bg-blue-300 text-blue-900'>{data}</p>*/}   
         <PlayerDisplay player={activePlayer}/>
-        <Button onClick={() => setEquipmentOpen(!equipmentOpen)}> expand me for gears </Button>
-        <div className={`${equipmentOpen ? 'block' : 'hidden'}`}>
-          <EquipmentRegistration registerEquip={registerEquip(equipment, setEquipment)}></EquipmentRegistration>
-          <EquipmentCarousel equipment={equipment} removeEquip={removeEquip(equipment, setEquipment)}/>
-        </div>
         <PlayerLevelControls levelUp={levelUp} resetPlayer={resetPlayer}/>
         <PlayerStrategyControls player={activePlayer} 
           setPlayerIsAddingINT={setPlayerIsAddingINT} 
