@@ -9,7 +9,7 @@ function Expand(props: ExpandI){
     const [expanded, setExpanded] = React.useState(false)
     const ref = React.useRef(null)
     return (       
-        <div id='expand' className={`bg-gradient-to-r from-[#DDF9FF] to-[#ADBEE9] rounded-3xl p-10 mb-6 mr-1 shadow-lg`}>
+        <div id='expand' className={`bg-linear-to-r from-[#DDF9FF] to-[#ADBEE9] rounded-3xl p-10 mb-6 mr-1 shadow-lg`}>
             <button className='w-full flex justify-between' onClick={() => setExpanded(!expanded)}>
               <span className='text-3xl'>{props.title}</span>
               <svg data-accordion-icon className={`w-3 h-3 ${ expanded? '' : 'rotate-180'} shrink-0 translate-y-3`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
