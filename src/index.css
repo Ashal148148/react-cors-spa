@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "../node_modules/tailwindcss/tailwind.css";
 
 @font-face {
     font-family: "Afacad";

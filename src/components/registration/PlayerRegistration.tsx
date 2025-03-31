@@ -2,20 +2,12 @@ import * as React from 'react';
 import Input from '../general/Input';
 import Select from '../general/Select';
 import { Job, jobs } from '../../logic/job';
-import NoaCard from '../general/NoaCard';
-import Button from '../general/Button';
-import EquipmentRegistration from '../equipment/EquipmentRegistration';
-import EquipmentCarousel from '../equipment/EquipmentCarousel';
-import { EquipmentI } from '../../interfaces/equipment';
+import Expand from '../general/Expand';
 
-function PlayerRegistration({ setPlayerName, setPlayerJob, setPlayerMapleWarriorPercent, equipment, registerEquip, removeEquip}:
-   { setPlayerName: (levels: string) => void, setPlayerJob: (job: Job) => void, setPlayerMapleWarriorPercent: (percent: number) => void,
-    equipment: EquipmentI[], registerEquip: (equip: EquipmentI) => void, removeEquip: (index: number) => void }): React.JSX.Element {
-      const [equipmentOpen, setEquipmentOpen] = React.useState(false)
-
+function PlayerRegistration({ setPlayerName, setPlayerJob, setPlayerMapleWarriorPercent}:
+   { setPlayerName: (levels: string) => void, setPlayerJob: (job: Job) => void, setPlayerMapleWarriorPercent: (percent: number) => void}): React.JSX.Element {
     return (
-      <NoaCard id="playerRegistration">
-          <p className='text-3xl text-center mb-6'> Registration </p>
+      <Expand id="playerRegistration" title='Registration'>
           <div className='flex flex-row justify-center'>
             <form className='max-w-sm grow mr-10'>
               <span className="block mb-2 text-2xl font-medium text-slate-700">Name:</span>
@@ -42,12 +34,7 @@ function PlayerRegistration({ setPlayerName, setPlayerJob, setPlayerMapleWarrior
               </Select>
             </form>
           </div>
-        <Button onClick={() => setEquipmentOpen(!equipmentOpen)}> expand me for gears </Button>
-        <div className={`${equipmentOpen ? 'block' : 'hidden'}`}>
-          <EquipmentRegistration registerEquip={registerEquip}></EquipmentRegistration>
-          <EquipmentCarousel equipment={equipment} removeEquip={removeEquip}/>
-        </div>      
-      </NoaCard>
+      </Expand>
     );
 }
 // "Brawler": buccaneer, "Gunslinger": corsair, "Hero": hero, "Spearman/Paladin":dk_paladin, "Mage"

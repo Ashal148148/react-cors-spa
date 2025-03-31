@@ -2,14 +2,13 @@ import * as React from 'react';
 import { PlayerI } from '../../interfaces/player';
 import Input from '../general/Input';
 import Checkbox from '../general/Checkbox';
-import NoaCard from '../general/NoaCard';
+import Expand from '../general/Expand';
 
 function PlayerStrategyControls({player, setPlayerIsAddingINT, setPlayerIsAddingFreshAPIntoHP, setPlayerIsMPWashBeforeINT, setPlayerINTGoal}: 
     {player: PlayerI, setPlayerIsAddingINT: (value: boolean) => void, setPlayerIsAddingFreshAPIntoHP: (value: boolean) => void,
     setPlayerIsMPWashBeforeINT: (value: boolean) => void, setPlayerINTGoal: (value: number) => void }): React.JSX.Element {
     return (
-      <NoaCard id='strategyControls'>
-          <p className='text-3xl'> strategy </p>
+      <Expand id='strategyControls' title='Strategy'>
           <div className='flex flex-row'>
             <span className="block text-sm font-medium text-slate-700">Base INT Goal</span>
             <Input type='number' title='baseINTGoal' onBlur={(event) => setPlayerINTGoal(+event.target.value)} placeholder='Base INT Goal'/>
@@ -17,7 +16,7 @@ function PlayerStrategyControls({player, setPlayerIsAddingINT, setPlayerIsAdding
             <Checkbox value={player.is_adding_fresh_ap_into_hp} onChange={() => setPlayerIsAddingFreshAPIntoHP(!player.is_adding_fresh_ap_into_hp)} label='Add fresh AP into HP'/>
             <Checkbox value={player.is_mp_wash_before_int} onChange={() => setPlayerIsMPWashBeforeINT(!player.is_mp_wash_before_int)} label='MP Wash before adding INT'/>
           </div>
-      </NoaCard>
+      </Expand>
     );
 }
 

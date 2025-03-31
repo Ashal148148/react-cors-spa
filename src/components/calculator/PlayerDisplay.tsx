@@ -17,8 +17,6 @@ function PlayerDisplay({player}: {player: PlayerI}): React.JSX.Element {
               <p> Main Stat: {player.main_stat} </p>
               <p> Bonus mana: {player.bonus_mana}</p>
               <p> Total mana: {player.mana} </p>
-            </div>
-            <div className='grow border-solid border-black border-0 border-l-[3px] pl-2 '>
               <p> Bonus health: {player.bonus_HP} </p>
               <p> Total health: {player.health} </p>
               <p> Fresh AP: {player.fresh_AP} </p>
