@@ -4,17 +4,20 @@ import Input from '../general/Input';
 import Checkbox from '../general/Checkbox';
 import Expand from '../general/Expand';
 
-function PlayerStrategyControls({player, setPlayerIsAddingINT, setPlayerIsAddingFreshAPIntoHP, setPlayerIsMPWashBeforeINT, setPlayerINTGoal}: 
-    {player: PlayerI, setPlayerIsAddingINT: (value: boolean) => void, setPlayerIsAddingFreshAPIntoHP: (value: boolean) => void,
-    setPlayerIsMPWashBeforeINT: (value: boolean) => void, setPlayerINTGoal: (value: number) => void }): React.JSX.Element {
-    return (
+function PlayerStrategyControls({playerIsAddingINT, setPlayerIsAddingINT, playerIsAddingFreshAPIntoHP, setPlayerIsAddingFreshAPIntoHP,
+  playerIsMPWashBeforeINT, setPlayerIsMPWashBeforeINT, playerINTGoal, setPlayerINTGoal}: 
+    {playerIsAddingINT: boolean, setPlayerIsAddingINT: (value: boolean) => void, playerIsAddingFreshAPIntoHP: boolean, setPlayerIsAddingFreshAPIntoHP: (value: boolean) => void,
+     playerIsMPWashBeforeINT: boolean, setPlayerIsMPWashBeforeINT: (value: boolean) => void, playerINTGoal: number, setPlayerINTGoal: (value: number) => void }): React.JSX.Element {
+      return (
       <Expand id='strategyControls' title='Strategy'>
-          <div className='flex flex-row'>
-            <span className="block text-sm font-medium text-slate-700">Base INT Goal</span>
-            <Input type='number' title='baseINTGoal' onBlur={(event) => setPlayerINTGoal(+event.target.value)} placeholder='Base INT Goal'/>
-            <Checkbox value={player.is_adding_int} onChange={() => setPlayerIsAddingINT(!player.is_adding_int)} label='Add INT'/>
-            <Checkbox value={player.is_adding_fresh_ap_into_hp} onChange={() => setPlayerIsAddingFreshAPIntoHP(!player.is_adding_fresh_ap_into_hp)} label='Add fresh AP into HP'/>
-            <Checkbox value={player.is_mp_wash_before_int} onChange={() => setPlayerIsMPWashBeforeINT(!player.is_mp_wash_before_int)} label='MP Wash before adding INT'/>
+          <div className='flex flex-col'>
+            <Checkbox value={playerIsAddingINT} onChange={() => setPlayerIsAddingINT(!playerIsAddingINT)} label='Add INT'/>
+            <div className='flex flex-row'>
+              <span className="block mr-2 pt-3 text-2xl font-medium text-black">Base INT Goal:</span>
+              <Input type='number' title='baseINTGoal' value={playerINTGoal} onChange={(event) => setPlayerINTGoal(+event.target.value)} placeholder='Base INT Goal'/>
+            </div>
+            <Checkbox value={playerIsAddingFreshAPIntoHP} onChange={() => setPlayerIsAddingFreshAPIntoHP(!playerIsAddingFreshAPIntoHP)} label='Add fresh AP into HP'/>
+            <Checkbox value={playerIsMPWashBeforeINT} onChange={() => setPlayerIsMPWashBeforeINT(!playerIsMPWashBeforeINT)} label='MP Wash before adding INT'/>
           </div>
       </Expand>
     );

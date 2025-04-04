@@ -1,11 +1,14 @@
 import * as React from 'react';
 
-function Checkbox({value, label, onChange, className}: {value: boolean, label: string, onChange: (event) => void, className?: string} ){
-
+function Checkbox({value, label, onChange, className, id}: {value: boolean, label: string, onChange: (event: any) => void, className?: string, id?: string} ){
     return (
-    <div className="flex items-center mb-4">
-        <input id="default-checkbox" type="checkbox" checked={value} onChange={onChange} className={`w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 ${className}`}/>
-        <label className={`ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 ${className}`}>{label}</label>
+    <div className="flex gap-2">
+        <input id={id} type="checkbox" checked={value} onChange={onChange} 
+          className={`peer relative appearance-none shrink-0 w-6 h-6 border-1 border-black rounded-lg mt-1 bg-white
+                      focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-blue-100
+                      checked:bg-[#84c690] checked:border-1
+                      disabled:border-steel-400 disabled:bg-steel-400 ${className}`}/>
+        <label className={`ms-2 mr-2 text-2xl font-medium text-black ${className}`}>{label}</label>
     </div>
     )
 }

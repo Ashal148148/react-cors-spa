@@ -1,6 +1,7 @@
 import { EquipmentI } from "../interfaces/equipment"
 import { JobI } from "../interfaces/job"
 import { PlayerI } from "../interfaces/player"
+import { jobs } from "./job"
 
 export class Player implements PlayerI {
     INT: number
@@ -102,7 +103,7 @@ export class Player implements PlayerI {
             if (this.level === 70){
                 this.fresh_AP += 5
             }
-            console.log(`lvled up to ${this.level}`)
+            // console.log(`lvled up to ${this.level}`)
             this.gear_up(int_gears)
         }
     }
@@ -131,13 +132,13 @@ export class Player implements PlayerI {
                         isNew = false
                         if (e.INT > g.INT){
                             this.equipment.splice(index, 1, e)
-                            console.log(`removing: ${g.name}`)
-                            console.log(`equipping: ${e.name}`)   
+                            // console.log(`removing: ${g.name}`)
+                            // console.log(`equipping: ${e.name}`)   
                         }
                     }
                 })              
                 if (isNew){
-                    console.log(`equipping: ${e.name}`)
+                    // console.log(`equipping: ${e.name}`)
                     this.equipment.push(e)
                 }                
             }
@@ -145,7 +146,7 @@ export class Player implements PlayerI {
     }
         
     mp_wash(max_amount=9999){ // TODO-- do not allow mp wash under 20 base int
-        var before = this.bonus_mana
+        // var before = this.bonus_mana
         var washes = 0
         if (max_amount > this.fresh_AP){
             washes = this.fresh_AP
@@ -158,9 +159,8 @@ export class Player implements PlayerI {
         }
         this.fresh_AP -= washes
         this.stale_ap += washes
-        this.washes += washes
         this.mp_washes += washes
-        console.log(`at lvl ${this.level} mp wash gain was: ${this.bonus_mana - before}`)
+        // console.log(`at lvl ${this.level} mp wash gain was: ${this.bonus_mana - before}`)
     }
 
     hp_wash(max_amount=9999, health_goal=30000){
@@ -262,9 +262,32 @@ export class Player implements PlayerI {
             "is_adding_fresh_ap_into_hp": this.is_adding_fresh_ap_into_hp ,
             "mp_washes": this.mp_washes ,
             "fresh_ap_into_hp_total": this.fresh_ap_into_hp_total ,
+            "is_mp_wash_before_int": this.is_mp_wash_before_int
             // "id": this.id
         }
     }
+
+    update_from_dump(dump: JSON){        
+        this.level = dump["level"]
+        this.int_goal = dump["int_goal"]
+        this.bonus_HP = dump["bonus_HP"]
+        this.bonus_mana = dump["bonus_mana"]
+        this.INT = dump["INT"]
+        this.maple_warrior_percent = dump["maple_warrior_percent"]
+        this.fresh_AP = dump["fresh_AP"]
+        this.washes = dump["washes"]
+        this.is_adding_int = dump["is_adding_int"]
+        this.stale_ap = dump["stale_ap"]
+        this.name = dump["name"]
+        this.job = jobs[dump["job"]]
+        this.main_stat = dump["main_stat"]
+        this.is_adding_fresh_ap_into_hp = dump["is_adding_fresh_ap_into_hp"]
+        this.mp_washes = dump["mp_washes"]
+        this.fresh_ap_into_hp_total = dump["fresh_ap_into_hp_total"]
+        this.is_mp_wash_before_int = dump["is_mp_wash_before_int"]
+        // "id": this.id        
+    }
+
 
     toString(): string{
         return `name: ${this.name} job: ${this.job} lvl: ${this.level} base INT: ${this.INT} total INT: ${this.total_int} fresh ap: ${this.fresh_AP} bonus MP: ${this.bonus_mana} bonus HP: ${this.bonus_HP} total HP: ${this.health} reset scrolls: ${this.washes} cost: ${(this.washes) * 3300}nx`

@@ -1,20 +1,15 @@
 import './App.css';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import EquipmentCarousel from './components/equipment/EquipmentCarousel';
-import EquipmentRegistration from './components/equipment/EquipmentRegistration';
 import { EquipmentI } from './interfaces/equipment';
-import Button from './components/general/Button';
 import { Player } from './logic/player';
 import { archer_thief, jobs } from './logic/job';
-import PlayerDisplay from './components/calculator/PlayerDisplay';
-import PlayerLevelControls from './components/calculator/PlayerLevelControls';
-import PlayerStrategyControls from './components/calculator/PlayerStrategyControls';
-import PlayerWashControls from './components/calculator/PlayerWashControls';
-import PlayerRegistration from './components/registration/PlayerRegistration';
 import Navbar from './components/general/Navbar';
-import Expand from './components/general/Expand';
-import EquipmentExpand from './components/equipment/EquipmentControls';
+import { Route, Routes } from 'react-router'
+import Home from './components/pages/Home';
+import Terminology from './components/pages/Terminology';
+import About from './components/pages/About';
+import Planner from './components/pages/Planner';
 
 const APIEndPoint = 'https://keltabpj69.execute-api.eu-north-1.amazonaws.com/default/washPlanner'
 const DataToSend = {
@@ -79,135 +74,63 @@ function removeEquip(equipment: EquipmentI[], setEquipment: (equip: any) => void
 
 function App(): React.JSX.Element {
   const [equipment, setEquipment] = useState([])
+  const [playerMapleWarriorPercent, setPlayerMapleWarriorPercent] = useState(10)
+  const [playerName, setPlayerName] = useState('AshalNL')
+  const [playerJob, setPlayerJob] = useState(archer_thief)
   const [playerINT, setPlayerINT] = useState(10)
   const [playerINTGoal, setPlayerINTGoal] = useState(350)
   const [playerLevel, setPlayerLevel] = useState(1)
   const [playerEquipment, setPlayerEquipment] = useState([])
-  const [playerMapleWarriorPercent, setPlayerMapleWarriorPercent] = useState(10)
   const [playerBonusMana, setPlayerBonusMana] = useState(0)
   const [playerBonusHP, setPlayerBonusHP] = useState(0)
   const [playerFreshAP, setPlayerFreshAP] = useState(0)
   const [playerWashes, setPlayerWashes] = useState(0)
-  const [playerName, setPlayerName] = useState('AshalNL')
   const [playerMPWashes, setPlayerMPWashes] = useState(0)
   const [playerIsAddingINT, setPlayerIsAddingINT] = useState(true)
   const [playerIsAddingFreshAPIntoHP, setPlayerIsAddingFreshAPIntoHP] = useState(false)
   const [playerIsMPWashBeforeINT, setPlayerIsMPWashBeforeINT] = useState(false)
   const [playerStaleAP, setPlayerStaleAP] = useState(0)
-  const [playerJob, setPlayerJob] = useState(archer_thief)
   const [playerMainStat, setPlayerMainStat] = useState(5)
   const [playerFreshAPIntoHPTotal, setPlayerFreshAPIntoHPTotal] = useState(0)
 
-  const activePlayer = new Player(playerJob, playerName, playerMapleWarriorPercent, playerINTGoal, playerLevel, playerEquipment, playerBonusHP, playerBonusMana, playerINT, playerFreshAP, playerWashes, playerIsAddingINT, playerStaleAP, playerMainStat, playerIsAddingFreshAPIntoHP, playerMPWashes, playerFreshAPIntoHPTotal, 0, playerIsMPWashBeforeINT)
-  const updatePlayerState = (changedPlayer: Player) => {
-    setPlayerINT(changedPlayer.INT)
-    // setPlayerINTGoal(changedPlayer)
-    setPlayerLevel(changedPlayer.level)
-    setPlayerEquipment([...changedPlayer.equipment])
-    // setPlayerMapleWarriorPercent(10)
-    setPlayerBonusMana(changedPlayer.bonus_mana)
-    setPlayerBonusHP(changedPlayer.bonus_HP)
-    setPlayerFreshAP(changedPlayer.fresh_AP)
-    setPlayerWashes(changedPlayer.washes)
-    // setPlayerName('AshalNL')
-    setPlayerMPWashes(changedPlayer.mp_washes)
-    setPlayerIsAddingINT(changedPlayer.is_adding_int)
-    setPlayerIsAddingFreshAPIntoHP(changedPlayer.is_adding_fresh_ap_into_hp)
-    setPlayerIsMPWashBeforeINT(changedPlayer.is_mp_wash_before_int)
-    setPlayerStaleAP(changedPlayer.stale_ap)
-    // setPlayerJob(archer_thief)
-    setPlayerMainStat(changedPlayer.main_stat)
-    setPlayerFreshAPIntoHPTotal(changedPlayer.fresh_ap_into_hp_total)
-  }
-
   useEffect(() => {
-    const storageEquipment = JSON.parse(localStorage.getItem('int_gears')) 
-    if (storageEquipment == null){
-      setEquipment(EquipmentConst)
-    } else {
+    const storageEquipment: EquipmentI[] = JSON.parse(localStorage.getItem('int_gears')) 
+    if (storageEquipment != null && storageEquipment.length !== 0){
       setEquipment(storageEquipment)
+    } else {  // TODO - make sure this section is commented out when building, it's to preload my int gears
+      setEquipment(EquipmentConst)
+      localStorage.setItem('int_gears', JSON.stringify(EquipmentConst))
     }
-  }, [])
+  }, [])  
 
-  const levelUp = (levels: number) => {
-    activePlayer.progress(levels, equipment)
-    updatePlayerState(activePlayer)
-  }
-
-  const mpWash = (max_amount: number) => {
-    activePlayer.mp_wash(max_amount)
-    updatePlayerState(activePlayer)
-  }
-
-  const hpWash = (max_amount: number) => {
-    activePlayer.hp_wash(max_amount)
-    updatePlayerState(activePlayer)
-  }
-
-  const resetAllMPIntoHP = () => {
-    activePlayer.hp_wash()
-    updatePlayerState(activePlayer)
-  }
-
-  const resetInt = () => {
-    activePlayer.fix_char()
-    updatePlayerState(activePlayer)
-  }
-
-  const resetPlayer = () => {
-    activePlayer.reset_player()
-    updatePlayerState(activePlayer)
-  }
-  
-
-  // useEffect(() => {
-  //   async function fetchData() {    
-  //     try  {
-  //     const fetchResponse = await fetch (APIEndPoint,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           'Accept': 'application/json',
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify(DataToSend)
-  //       }  
-  //     )
-  //     const response = await fetchResponse.json()
-  //     console.log(response)
-  //     setData(JSON.stringify(response))
-  //   } catch (e) {
-  //     console.log(e)
-  //     setData(e.message)
-  //   }
-  // }
-  // fetchData()
-  // }, [])
   return (
     <div className="App">
       {/*<Button onClick={() =>console.log(activePlayer)}>log current player to console</Button>*/}
       <Navbar/>
-      <div id='title' className={"text-white bg-[url('/src/resources/mlbanner.png')] pt-24 pb-14 bg-bottom bg-cover"}>     
-        <p className='text-center w-full h-full font-bold text-5xl brightness-200'>Welcome to BattleCat's HP washing calculator</p>
-        <p className='text-center w-full h-full text-2xl'>This calculator is an estimation, so take it with a grain of salt</p>
-      </div>
-      <div id='page-content' className='rounded-t-3xl p-10 bg-[#D4E1F6] -mt-5 flex'>
-        <div id='player-display-container' className='grow'>
-          <PlayerDisplay player={activePlayer}/>
-          </div>
-          <div id='controls-container' className='grow'>
-          <PlayerRegistration setPlayerName={setPlayerName} setPlayerJob={setPlayerJob} setPlayerMapleWarriorPercent={setPlayerMapleWarriorPercent}/>
-          <EquipmentExpand equipment={equipment} registerEquip={registerEquip(equipment, setEquipment)} removeEquip={removeEquip(equipment, setEquipment)}/>
-          <PlayerLevelControls levelUp={levelUp} resetPlayer={resetPlayer}/>
-          <PlayerWashControls mpWash={mpWash} hpWash={hpWash} resetAllMPIntoHP={resetAllMPIntoHP} resetInt={resetInt}/>
-          <PlayerStrategyControls player={activePlayer} 
-            setPlayerIsAddingINT={setPlayerIsAddingINT} 
-            setPlayerIsAddingFreshAPIntoHP={setPlayerIsAddingFreshAPIntoHP} 
-            setPlayerIsMPWashBeforeINT={setPlayerIsMPWashBeforeINT}
-            setPlayerINTGoal={setPlayerINTGoal}
-          />          
-        </div>
-      </div>
+      <Routes>
+        <Route path="/" element={<Home equipment={equipment} setEquipment={setEquipment} playerJob={playerJob} setPlayerJob={setPlayerJob}
+                                  playerMapleWarriorPercent={playerMapleWarriorPercent} setPlayerMapleWarriorPercent={setPlayerMapleWarriorPercent}
+                                  playerName={playerName} setPlayerName={setPlayerName} registerEquip={registerEquip(equipment, setEquipment)} 
+                                  removeEquip={removeEquip(equipment, setEquipment)} playerINT={playerINT} setPlayerINT={setPlayerINT} 
+                                  playerINTGoal={playerINTGoal} setPlayerINTGoal={setPlayerINTGoal} playerLevel={playerLevel}
+                                  setPlayerLevel={setPlayerLevel} playerEquipment={playerEquipment} setPlayerEquipment={setPlayerEquipment}
+                                  playerBonusMana={playerBonusMana} setPlayerBonusMana={setPlayerBonusMana} playerBonusHP={playerBonusHP}
+                                  setPlayerBonusHP={setPlayerBonusHP} playerFreshAP={playerFreshAP} setPlayerFreshAP={setPlayerFreshAP}
+                                  playerWashes={playerWashes} setPlayerWashes={setPlayerWashes} playerMPWashes={playerMPWashes}
+                                  setPlayerMPWashes={setPlayerMPWashes} playerIsAddingINT={playerIsAddingINT} setPlayerIsAddingINT={setPlayerIsAddingINT}
+                                  playerIsAddingFreshAPIntoHP={playerIsAddingFreshAPIntoHP} setPlayerIsAddingFreshAPIntoHP={setPlayerIsAddingFreshAPIntoHP}
+                                  playerIsMPWashBeforeINT={playerIsMPWashBeforeINT} setPlayerIsMPWashBeforeINT={setPlayerIsMPWashBeforeINT} 
+                                  playerStaleAP={playerStaleAP} setPlayerStaleAP={setPlayerStaleAP} playerMainStat={playerMainStat}
+                                  setPlayerMainStat={setPlayerMainStat} playerFreshAPIntoHPTotal={playerFreshAPIntoHPTotal} 
+                                  setPlayerFreshAPIntoHPTotal={setPlayerFreshAPIntoHPTotal}/>}
+        />
+        <Route path='/terminology' element={<Terminology/>}/>
+        <Route path='/about' element={<About/>}/>
+        <Route path='/planner' element={<Planner equipment={equipment} playerJob={playerJob} setPlayerJob={setPlayerJob}
+                                  playerMapleWarriorPercent={playerMapleWarriorPercent} setPlayerMapleWarriorPercent={setPlayerMapleWarriorPercent}
+                                  playerName={playerName} setPlayerName={setPlayerName} registerEquip={registerEquip(equipment, setEquipment)} 
+                                  removeEquip={removeEquip(equipment, setEquipment)} />}/>
+      </Routes>
     </div>
   );
 }

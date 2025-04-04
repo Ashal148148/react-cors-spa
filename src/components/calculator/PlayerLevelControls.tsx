@@ -9,13 +9,12 @@ function PlayerLevelControls({ levelUp, resetPlayer }: { levelUp: (levels: numbe
 
     return (
       <Expand id="levelControls" title="Levels">
-          <div className='flex flex-row'>
-            <Button className='my-2' onClick={() => levelUp(1)}>1 up</Button>
-            <Button className='my-2' onClick={() => levelUp(10)}>10 up</Button>
-            <span className="block text-sm font-medium text-slate-700">Levels</span>
-            <Input  value={levels} onChange={(event) => setLevels(+event.target.value)}/>
-            <Button className='my-2' onClick={() => levelUp(levels)}>up</Button>
+          <div className='flex flex-row mb-4'>
+            <span className="block mr-2 pt-3 text-2xl font-medium text-black ">Levels: </span>
+            <Input  value={levels} onChange={(event) => setLevels(+event.target.value)} className='mr-2'/>
+            <Button className='my-2' onClick={() => levelUp(levels)}>level up</Button>            
           </div>
+          
           <Button onClick={resetPlayer}>Reset to level 1</Button>
       </Expand>
     );

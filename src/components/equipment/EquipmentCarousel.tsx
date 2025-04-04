@@ -25,10 +25,13 @@ const responsive = {
   
 
 function EquipmentCarousel({equipment, removeEquip}: {equipment: EquipmentI[], removeEquip: (equip: number) => void}): React.JSX.Element {
+    // if the Carousel component is inside a flex container is bugs out to infinity width, which is why i put it in grid
     return (
-      <Carousel responsive={responsive}>
-          {equipment.map((equip, index) => <Equipment equip={equip} key={equip.name} removeEquip={removeEquip} index={index} />)}
-      </Carousel>
+      <div className='grid'> 
+        <Carousel responsive={responsive}>
+            {equipment.map((equip, index) => <Equipment equip={equip} key={equip.name} removeEquip={removeEquip} index={index} />)}
+        </Carousel>
+      </div>
     );
 }
 

@@ -12,22 +12,18 @@ function PlayerWashControls({mpWash, hpWash, resetAllMPIntoHP, resetInt}: { mpWa
 
     return (
       <Expand id="playerWashControls" title='Washing'>
-          <div id='manaWashes' className='flex flex-row'>
-            <Button className='my-2' onClick={() => mpWash(1)}>1 mana wash</Button>
-            <Button className='my-2' onClick={() => mpWash(10)}>10 mana wash</Button>
-            <span className="block text-sm font-medium text-slate-700">Washes</span>
-            <Input  value={mpWashes} onChange={(event) => setMpWashes(+event.target.value)}/>
+          <div id='manaWashes' className='flex flex-row mb-4'>
+            <span className="block mr-2 pt-3 text-2xl font-medium text-black">Washes:</span>
+            <Input  value={mpWashes} onChange={(event) => setMpWashes(+event.target.value)} className='mr-2'/>
             <Button className='my-2' onClick={() => mpWash(mpWashes)}> mana wash</Button>
           </div>
-          <div id='healthWashes' className='flex flex-row'>
-            <Button className='my-2' onClick={() => hpWash(1)}>1 HP wash</Button>
-            <Button className='my-2' onClick={() => hpWash(10)}>10 HP wash</Button>
-            <span className="block text-sm font-medium text-slate-700">Washes</span>
-            <Input  value={hpWashes} onChange={(event) => setHpWashes(+event.target.value)}/>
+          <div id='healthWashes' className='flex flex-row mb-4'>
+            <span className="block mr-2 pt-3 text-2xl font-medium text-black">Washes:</span>
+            <Input  value={hpWashes} onChange={(event) => setHpWashes(+event.target.value)} className='mr-2'/>
             <Button className='my-2' onClick={() => hpWash(hpWashes)}> HP wash </Button>
           </div>
           <div id='intManipulation' className='flex flex-row'>
-            <Button className='my-2' onClick={() => resetAllMPIntoHP()}> Reset all bonus mp into hp </Button>
+            <Button className='my-2 mr-2' onClick={() => resetAllMPIntoHP()}> Reset all bonus mp into hp </Button>
             <Button className='my-2' onClick={() => resetInt()}> Reset INT </Button>
           </div>
       </Expand>

@@ -20,15 +20,23 @@ function EquipmentRegistration({registerEquip}: {registerEquip: (equip: Equipmen
   return (
     <div>
         <label className="block">
-          <span className="block text-sm font-medium text-slate-700">Item Name</span>
-          <Input type="text" placeholder='Zakum Helmet' title='name' onChange={(event) => setEquipName(event.target.value)}/>
-          <span className="block text-sm font-medium text-slate-700">Item Category</span>
-          <Input type="text" placeholder='Helmet' title='category' onChange={(event) => setCategory(event.target.value)}/>
-          <span className="block text-sm font-medium text-slate-700">Level Required</span> 
-          <Input type="number" placeholder='50' title='level' onChange={(event) => setLevel(+event.target.value)}/>
-          <span className="block text-sm font-medium text-slate-700">Bonus INT</span>
-          <Input type="number" placeholder='30' title='INT' onChange={(event) => setINT(+event.target.value)}/>
-          <Button onClick={validateAndRegisterEquip}>Confirm</Button>
+          <div className='flex flex-row'>
+            <span className="block mr-2 pt-3 text-2xl font-medium text-black shrink-0">Item Name:</span>
+            <Input type="text" placeholder='Zakum Helmet' title='name' onChange={(event) => setEquipName(event.target.value)}/>
+          </div>
+          <div className='flex flex-row'>
+            <span className="block mr-2 pt-3 text-2xl font-medium text-black shrink-0">Item Category:</span>
+            <Input type="text" placeholder='Helmet' title='category' onChange={(event) => setCategory(event.target.value)}/>
+          </div>
+          <div className='flex flex-row'>
+            <span className="block mr-2 pt-3 text-2xl font-medium text-black shrink-0">Level Required:</span> 
+            <Input type="number" placeholder='50' title='level' onChange={(event) => setLevel(+event.target.value)}/>
+          </div>
+          <div className='flex flex-row'>
+            <span className="block mr-2 pt-3 text-2xl font-medium text-black shrink-0">Bonus INT:</span>
+            <Input type="number" placeholder='30' title='INT' onChange={(event) => setINT(+event.target.value)}/>
+          </div>
+          <Button className='mt-5 mb-3' onClick={validateAndRegisterEquip}>Confirm</Button>
         </label>
       </div>
   );
