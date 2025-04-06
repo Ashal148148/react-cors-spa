@@ -221,6 +221,8 @@ export class Player implements PlayerI {
                 } else {
                     break
                 }
+            } else {
+                break
             }
         }
     }

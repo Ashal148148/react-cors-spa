@@ -57,7 +57,7 @@ function archer_thief_mp(level: number): number{
 }
 
 export const archer_thief = new Job(
-    "Archer/Thief", //name=
+    "Thief/Archer", //name=
     12, //mp_cost=
     16, //hp_gain=
     THIEF_ARCHER_BASE_HP, //base_hp=
@@ -117,4 +117,4 @@ export const mage = new Job(
     11, // mp_gain_skill_level=    
 )
 
-export const jobs = {"Archer/Thief": archer_thief, "Brawler": buccaneer, "Gunslinger": corsair, "Hero": hero, "Spearman/Paladin":dk_paladin, "Mage": mage}
+export const jobs = {"Thief/Archer": archer_thief, "Brawler": buccaneer, "Gunslinger": corsair, "Hero": hero, "Spearman/Paladin":dk_paladin, "Mage": mage}

@@ -16,7 +16,7 @@ function PlayerRegistration({ setPlayerName, playerJob ,setPlayerJob, mapleWarri
             <form className="max-w-sm mr-10 grow">
               <label htmlFor='job' className="block mb-2 text-2xl font-medium text-gray-900 dark:text-white"> Class: </label>        
               <Select title='Class:' id='job' value={playerJob.name} onChange={(event) => setPlayerJob(jobs[event.target.value])}> 
-                  <option value="Archer/Thief">Archer/Thief</option>
+                  <option value="Thief/Archer">Thief/Archer</option>
                   <option value="Brawler">Brawler</option>
                   <option value="Gunslinger">Gunslinger</option>
                   <option value="Hero">Hero</option>

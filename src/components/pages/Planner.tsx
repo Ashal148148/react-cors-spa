@@ -10,8 +10,10 @@ import { useEffect } from 'react';
 import { jobs } from '../../logic/job';
 import Expand from '../general/Expand';
 import PlanHistory from '../planner/PlanHistory';
-import { do_the_stuff } from '../../logic/planner';
+import { do_the_stuff, reach_the_goal_no_matter_what } from '../../logic/planner';
 import { Player } from '../../logic/player';
+import Modal from '../general/Modal';
+import { PlanResultI } from '../../interfaces/planResult';
 
 interface PlannerPropI {
   playerName: string
@@ -24,21 +26,48 @@ interface PlannerPropI {
   registerEquip: (equip: EquipmentI) => void
   removeEquip: (index: number) => void
 }
-//[minBaseInt, minMpWashes, bestHealth, player.washes, success, player.fresh_ap_into_hp_total];
+
 function Planner(props: PlannerPropI): React.JSX.Element {   
   const [levelGoal, setLevelGoal] = React.useState(0)
   const [hpGoal, setHpGoal] = React.useState(0)
+  const [open, setOpen] = React.useState(false)
   const [baseInt, SetBaseInt] = React.useState(0)
   const [mpWashes, setMpWashes] = React.useState(0)
   const [health, setHealth] = React.useState(0)
   const [washes, setWashes] = React.useState(0)
   const [success, setSuccess] = React.useState(false)
+  const [startingBaseInt, setStartingBaseInt] = React.useState(0)
   const [freshApIntoHpTotal, setFreshApIntoHpTotal] = React.useState(0)
+  const [planHistory, setPlanHistory] = React.useState<PlanResultI[]>([])
 
   const currentPlayer = new Player(props.playerJob, props.playerName, props.playerMapleWarriorPercent)
   const onClickPlan = () => {
-    // const [b, m, h, w, s, f]  = do_the_stuff(currentPlayer, props.equipment,hpGoal, levelGoal)
-    console.log(do_the_stuff(currentPlayer, props.equipment, levelGoal, hpGoal))
+    if (levelGoal > 0 && hpGoal > 0) {
+      const [b, m, h, w, s, f, sb]  = reach_the_goal_no_matter_what(currentPlayer, props.equipment, levelGoal, hpGoal)
+      // console.log(do_the_stuff(currentPlayer, props.equipment, levelGoal, hpGoal))
+      setOpen(true)
+      SetBaseInt(b)
+      setMpWashes(m)
+      setHealth(h)
+      setWashes(w)
+      setSuccess(s)
+      setFreshApIntoHpTotal(f)
+      setStartingBaseInt(sb)
+      setPlanHistory((prev) => [...prev, {
+        characterName: props.playerName,
+        levelGoal: levelGoal,
+        hpGoal: hpGoal,
+        job: props.playerJob.name,
+        baseInt: b,
+        mpWashes: m,
+        health: h, 
+        washes: w,
+        success: s,
+        freshApIntoHpTotal: f,
+        startingBaseInt: sb
+      }])
+
+    }
   }
 
   useEffect(() => {
@@ -84,7 +113,7 @@ function Planner(props: PlannerPropI): React.JSX.Element {
           </div>
           <Button onClick={onClickPlan}>Plan!</Button>
           </NoaCard>
-          <PlanHistory/>
+          <PlanHistory planHistory={planHistory} />
         </div>
             <div id='controls-container' className='w-1/2 ml-5'>
             <PlayerRegistration setPlayerName={props.setPlayerName} playerJob={props.playerJob} setPlayerJob={props.setPlayerJob} 
@@ -97,9 +126,17 @@ function Planner(props: PlannerPropI): React.JSX.Element {
               <p>This tool assumes you never forget to put on your INT gears and that you always level up with MW20 applied</p>
               <p>If your goal is impossible the result will have a red background and will show the next best thing.</p>
               <p>The most optimal way being finishing exactly at your level goal with the least amount on NX spent</p>
+              <p>My algorithm becomes less optimal when mp washing starts before all the base INT has been allocated, so im open for suggestions</p>
             </Expand>
         </div>
         </div>
+        <Modal open={open} setOpen={setOpen} title={`Your plan is ${success ? '': 'not '}possible`}>
+          <p>{props.playerName} will reach {health} HP by level {levelGoal} as a {props.playerJob.name} with your registered gear and Maple Warrior</p>
+          <p>you will need {baseInt} base INT</p>
+          <p>accompanied by {mpWashes} MP washes and {freshApIntoHpTotal} fresh points into HP</p>
+          <p>start MP washing at {startingBaseInt} base INT</p>
+          <p>you will need {washes} AP reset scrolls</p>
+        </Modal>
     </div>
   );
 }

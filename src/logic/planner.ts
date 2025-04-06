@@ -4,6 +4,7 @@ import { Player } from "./player";
 const MAX_INT = 900;  // how high will the planner go with base int
 const MIN_INT = 20;  // INT starting point for the calculator, if it's under 20 my planner logic breaks, so 20 is the lowest
 const BASE_INT_INCREMENT = 10;  // base int increments will be in 10 because mp washing yields different results only in increments of 10
+const LOWEST_MP_WASHING_LEVEL = 50; // it doesn't make sense to start mp washing so early so i limited it to level 50+
 
 
 export function do_the_stuff(player: Player, intGears: EquipmentI[], levelGoal: number, hpGoal: number): [number, number, number, number, boolean, number] {
@@ -92,7 +93,7 @@ export function reach_the_goal_no_matter_what(player: Player, intGears: Equipmen
         let mpWashStartingInt = baseInt;
         let generatedMp = 0;
 
-        while (mpWashStartingInt > (50 + freshApIntoHpTotal) && generatedMp < missingMp) {
+        while (mpWashStartingInt > (LOWEST_MP_WASHING_LEVEL + freshApIntoHpTotal) && generatedMp < missingMp) {
             mpWashStartingInt -= 1;
             pointsIntoMp += 1;
             washes += 1;

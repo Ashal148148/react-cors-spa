@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import PlayerDisplay from '../calculator/PlayerDisplay';
 import PlayerRegistration from '../registration/PlayerRegistration';
 import EquipmentExpand from '../equipment/EquipmentControls';

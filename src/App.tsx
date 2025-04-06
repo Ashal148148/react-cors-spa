@@ -31,7 +31,7 @@ const DataToSend = {
       {"category": "Glove", "name": "red markers", "level": 20, "INT":11}
   ],
   "name": "AshalNL",
-  "job": "Archer/Thief",
+  "job": "Thief/Archer",
   "maple_warrior_percent": 10,
   "level_goal": 160,
   "hp_goal": 29000
@@ -54,7 +54,7 @@ const EquipmentConst: EquipmentI[] = [
       {"category": "Glove", "name": "red markers", "level": 20, "INT":11}
   ]
 
-const playerConst = new Player(jobs['Archer/Thief'], 'AshalNL', 10)
+const playerConst = new Player(jobs['Thief/Archer'], 'AshalNL', 10)
 
 function registerEquip(equipment: EquipmentI[], setEquipment: (equip: any) => void){
   return (equip: EquipmentI) => {
