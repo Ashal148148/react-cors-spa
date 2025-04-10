@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Input from '../general/Input';
 import Button from '../general/Button';
-import NoaCard from '../general/NoaCard';
 import Expand from '../general/Expand';
 
 function PlayerWashControls({mpWash, hpWash, resetAllMPIntoHP, resetInt}: { mpWash: (levels: number) => void, 

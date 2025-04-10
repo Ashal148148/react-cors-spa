@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import { jobs } from '../../logic/job';
 import Expand from '../general/Expand';
 import PlanHistory from '../planner/PlanHistory';
-import { do_the_stuff, reach_the_goal_no_matter_what } from '../../logic/planner';
+import { reach_the_goal_no_matter_what } from '../../logic/planner';
 import { Player } from '../../logic/player';
 import Modal from '../general/Modal';
 import { PlanResultI } from '../../interfaces/planResult';

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { PlayerI } from '../../interfaces/player';
 import Input from '../general/Input';
 import Checkbox from '../general/Checkbox';
 import Expand from '../general/Expand';
