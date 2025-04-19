@@ -98,13 +98,13 @@ function App(): React.JSX.Element {
     if (storageEquipment != null && storageEquipment.length !== 0){
       setEquipment(storageEquipment)
     } else {  // TODO - make sure this section is commented out when building, it's to preload my int gears
-      setEquipment(EquipmentConst)
-      localStorage.setItem('int_gears', JSON.stringify(EquipmentConst))
+      // setEquipment(EquipmentConst)
+      // localStorage.setItem('int_gears', JSON.stringify(EquipmentConst))
     }
   }, [])  
 
   return (
-    <div className="App">
+    <div className="App h-screen flex flex-col">
       {/*<Button onClick={() =>console.log(activePlayer)}>log current player to console</Button>*/}
       <Navbar/>
       <Routes>

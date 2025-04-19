@@ -146,7 +146,7 @@ export class Player implements PlayerI {
     }
         
     mp_wash(max_amount=9999){ // TODO-- do not allow mp wash under 20 base int
-        // var before = this.bonus_mana
+        var before = this.bonus_mana
         var washes = 0
         if (max_amount > this.fresh_AP){
             washes = this.fresh_AP
@@ -160,7 +160,8 @@ export class Player implements PlayerI {
         this.fresh_AP -= washes
         this.stale_ap += washes
         this.mp_washes += washes
-        // console.log(`at lvl ${this.level} mp wash gain was: ${this.bonus_mana - before}`)
+        this.washes += washes
+        console.log(`at lvl ${this.level} mp wash gain was: ${this.bonus_mana - before}, washes ${this.washes}`)
     }
 
     hp_wash(max_amount=9999, health_goal=30000){
@@ -176,7 +177,7 @@ export class Player implements PlayerI {
                 this.bonus_HP += this.job.base_hp_gain
                 if (this.is_adding_fresh_ap_into_hp && this.level > this.job.hp_gain_skill_level && this.fresh_AP > 0){
                     this.fresh_AP -= 1
-                    this.stale_ap += 1
+                    this.main_stat += 1
                     this.bonus_HP += this.job.hp_gain_skill
                     this.fresh_ap_into_hp_total += 1
                 }
@@ -193,7 +194,7 @@ export class Player implements PlayerI {
     progress(levels: number, int_gears: EquipmentI[]){
         for (var i = 0; i < levels; i++){
             this.level_up(int_gears)
-            if (this.is_adding_int && this.is_mp_wash_before_int){
+            if (this.is_adding_int && this.is_mp_wash_before_int && this.INT >= 30){
                 this.mp_wash()
                 this.add_int()
                 continue
@@ -201,10 +202,11 @@ export class Player implements PlayerI {
             if (this.is_adding_int){
                 this.add_int()
             }
-            if (this.is_mp_wash_before_int){
+            if (this.is_mp_wash_before_int && this.INT >= 30){
                 this.mp_wash()
             }
         }
+        console.log('aaaaa', this.washes)
     }                        
 
     fix_char(){
@@ -217,6 +219,7 @@ export class Player implements PlayerI {
                 if (this.bonus_mana > this.job.mp_cost){
                     this.washes += 1
                     this.stale_ap -= 1
+                    this.main_stat += 1
                     this.bonus_mana -= this.job.mp_cost
                 } else {
                     break

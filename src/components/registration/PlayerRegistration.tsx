@@ -30,7 +30,7 @@ function PlayerRegistration({ setPlayerName, playerJob ,setPlayerJob, mapleWarri
                   <option value={0}>0</option>
                   <option value={5}>5</option>
                   <option value={10}>10</option>
-                  <option value={15}>15</option>
+                  <option value={13}>13</option>
               </Select>
             </form>
           </div>

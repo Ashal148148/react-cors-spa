@@ -1,4 +1,5 @@
 import { EquipmentI } from "../interfaces/equipment";
+import { MAGE_BASE_HP } from "./job";
 import { Player } from "./player";
 
 const MAX_INT = 900;  // how high will the planner go with base int
@@ -27,7 +28,7 @@ export function do_the_stuff(player: Player, intGears: EquipmentI[], levelGoal: 
 
     console.log(`ok so the first run cost ${mpWashes} mana washes, hp reached was ${player.health}`);
     player.fix_char();
-    let minTotalCost = mpWashes + player.washes - totalWashes;
+    let minTotalCost = player.washes - totalWashes;
     let minMpWashes = mpWashes;
     let minBaseInt = baseInt;
     let minTotalWashes = totalWashes;
@@ -54,7 +55,7 @@ export function do_the_stuff(player: Player, intGears: EquipmentI[], levelGoal: 
             console.log(`${baseInt}INT: i have succeeded HP reached was: ${player.health}`);
         }
         player.fix_char();
-        let totalCost = mpWashes + (player.washes - totalWashes);
+        let totalCost = player.washes - totalWashes;
         console.log(`${player.name} with ${baseInt} INT: total cost of washes ${totalCost}`);
         if ((maxHp < player.health && player.health < hpGoal) || (totalCost < minTotalCost && maxHp <= player.health)) {
             minTotalWashes = totalWashes;
@@ -164,6 +165,10 @@ export function mageMpWashPlanner(player: Player, intGears: EquipmentI[], levelG
 }
 
 export function mageHpWashPlanner(player: Player, intGears: EquipmentI[], levelGoal: number, hpGoal: number, mpGoal: number): [number, number, number, number, boolean] {
+    if (hpGoal === 0) {
+        let [startLevel, mpWashes, totalMana, isSuccessful] = mageMpWashPlanner(player, intGears, levelGoal, mpGoal);
+        return [startLevel, mpWashes, MAGE_BASE_HP[levelGoal], totalMana, isSuccessful]
+    }
     const baseHealthAtGoal = player.job.base_hp[levelGoal - 1];
     const bonusManaNeeded = Math.floor((hpGoal - baseHealthAtGoal) / 6) * 30;
 

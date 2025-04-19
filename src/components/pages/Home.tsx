@@ -161,7 +161,7 @@ function Home(props: HomePropsI): React.JSX.Element {
 
   return (
     <div className="Home">
-      <div id='title' className={"text-white bg-[url('/src/resources/mlbanner.png')] pt-24 pb-14 bg-bottom bg-cover"}>     
+      <div id='title' className={"text-white bg-[url('/src/resources/mlbanner.png')] pt-24 pb-14 bg-bottom bg-cover flex flex-col"}>     
         <p className='text-center w-full h-full font-bold text-5xl brightness-200'>Welcome to BattleCat's HP washing calculator</p>
         <p className='text-center w-full h-full text-2xl'>This calculator is an estimation, so take it with a grain of salt</p>
       </div>
